@@ -11,7 +11,7 @@
 #include <string.h>
 #include "hash_table.h"
 
-/* Initialize a new hash table (ht_item):
+/* Initialization for ht_item:
  * - allocate required memory
  * - save a copy of k & v strings in memory
  */
@@ -21,3 +21,20 @@ static ht_item* ht_new_item(const char* k, const char* v) {
     i->v = strdup(v);
     return i;
 }
+
+/* Initialize a new hash table.
+ * - size: how many items we can store
+ * - calloc to fill everything with NUL bytes
+ */
+ht_hash_table* ht_new(void) {
+    ht_hash_table* ht = malloc(sizeof(ht_hash_table));
+    ht->size = 53; /* fixed for now */
+    ht->count = 0;
+    ht->items = calloc((size_t)ht->table, sizeof(ht_item*));
+    return ht;
+}
+
+
+
+
+
