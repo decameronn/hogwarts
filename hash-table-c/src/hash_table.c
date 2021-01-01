@@ -134,7 +134,7 @@ static void ht_resize_down(ht_hash_table* ht) {
  * use two hash functions to calculate the index
  * an item should be stored at after i collisions.
  * 
- * index = (hash_a(s) + i * (hash_b(s) + 1)) % num_buckets
+ * BUG: the function causes infinite cycling with hash_b = num_buckets
  */
 static int ht_get_hash(const char* s, const int num_buckets, const int attempt) {
     const int hash_a = ht_hash(s, HT_PRIME_1, num_buckets);
