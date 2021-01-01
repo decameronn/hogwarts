@@ -8,7 +8,7 @@ int is_prime(const int x) {
     if ((x % 2) == 0) return 0;
 
     int i;
-    for (i = 3; i < floor(sqrt(double) x); i+=2) {
+    for (i = 3; i < floor(sqrt((double) x)); i+=2) {
 	if ((x % i) == 0)
 	    return 0;
     }

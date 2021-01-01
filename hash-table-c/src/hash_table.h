@@ -1,13 +1,12 @@
 #ifndef HASH_TABLE
 #define HASH_TABLE
 
-/* k:v */
+
 typedef struct {
     char* key;
     char* value;
 } ht_item;
 
-/* hash table */
 typedef struct {
     int base_size;
     int size;
@@ -15,11 +14,9 @@ typedef struct {
     ht_item** items;
 } ht_hash_table;
 
-
 ht_hash_table* ht_new(void);
 void ht_del_hash_table(ht_hash_table* ht);
 
-/* API */
 void ht_insert(ht_hash_table* ht, const char* key, const char* value);
 char* ht_search(ht_hash_table* ht, const char* key);
 void ht_delete(ht_hash_table* h, const char* key);
