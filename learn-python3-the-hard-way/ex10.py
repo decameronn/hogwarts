@@ -1,6 +1,4 @@
-
 # ex.10
-print('\n*************** ex. 10')
 # print("age?", end=' ')
 # age = input()
 # print("height?", end=' ')
@@ -11,7 +9,6 @@ print('\n*************** ex. 10')
 
 
 # ex.12
-print('\n*************** ex. 12')
 # age = input('age? ')
 # height = input('height? ')
 # weight = input('weight? ')
@@ -29,7 +26,6 @@ print('\n*************** ex. 12')
 
 
 # ex.13
-print('\n*************** ex. 13')
 from sys import argv
 script, first, second, third = argv
 print('the script is called: ', script)
