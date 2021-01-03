@@ -33,11 +33,56 @@ function fetchIssues() {
 document.getElementById('issueInputForm').addEventListener('submit', saveIssue);
 
 function saveIssue(e) {
-  let issueId = chance.guid();
+  let issueId = chance.guid(); /* chancejs */
   let issueDesc = document.getElementById('issueDescInput').value;
   let issueSeverity = document.getElementById('issueSeverityInput').value;
   let issueAssignedTo = document.getElementById('issueAssignedToInput').value;
   let issueStatus = 'Open';
 
-  // more to follow
+  let issue = {
+    id: issueId,
+    description: issueDesc,
+    severity: issueSeverity,
+    assignedTo: issueAssignedTo,
+    status: issueStatus
+  }
+
+  if (localStorage.getItem('issues') == null) {
+    let issues = [];
+    issues.push(issue);
+    localStorage.setItem('issues', JSON.stringify(issues));
+  }
+  else {
+    let issues = JSON.parse(localStorage.getItem('issues'));
+    issues.push(issue);
+    localStorage.setItem('issues', JSON.stringify(issues));
+  }
+
+  document.getElementById('issueInputForm').reset();
+  fetchIssues();
+  e.preventDefault(); /* don't submit an empty form */
+}
+
+/* Add click event to setStatusClosed (in the html for the generated issue). */
+function setStatusClosed(id) {
+  let issues = JSON.parse(localStorage.getItem('issues'));
+  for (let i = 0; i < issues.length; i++) {
+    if (issues[i].id == id) {
+      issues[i].status = "Closed";
+    }
+  }
+  localStorage.setItem('issues', JSON.stringify(issues));
+  fetchIssues();
+}
+
+/* Delete an issue from the list and from LS. */
+function deleteIssue(id) {
+  let issues = JSON.parse(localStorage.getItem('issues'));
+  for (let i = 0; i < issues.length; i++) {
+    if (issues[i].id == id) {
+      issues.splice(i, 1);
+    }
+  }
+  localStorage.setItem('issues', JSON.stringify(issues));
+  fetchIssues();
 }
