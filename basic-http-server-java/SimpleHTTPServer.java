@@ -9,6 +9,11 @@ public class SimpleHTTPServer {
 
 	public static void main(String[] args) throws IOException {
 
+		// 1. read http request from the client socket
+		// 2. prepare http response
+		// 3. send http response to client
+		// 4. close the socket
+
 		ServerSocket server = new ServerSocket(8080);
 		System.out.println("Listening for connections on port 8080 ...");
 
@@ -27,15 +32,10 @@ public class SimpleHTTPServer {
 				Date today = new Date();
 				String httpResponse = "HTTP/1.1 200 OK\r\n\r\n" + today;
 				socket.getOutputStream().write(httpResponse.getBytes("UTF-8"));
-			} 
-			finally {
+			} finally {
 				server.close();
 			}
 
-			// 1. read http request from the client socket
-			// 2. prepare http response
-			// 3. send http response to client
-			// 4. close the socket
 		}
 	}
 }
