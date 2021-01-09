@@ -1,8 +1,9 @@
+#include "hash_table.h"
+
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "hash_table.h"
 #include "prime.h"
 
 static ht_item HT_DELETED_ITEM = {NULL, NULL};
@@ -86,9 +87,7 @@ static int ht_hash(const char *s, const int a, const int m) {
  * - swap attributes of new & old tables before deleting the old
  */
 static void ht_resize(ht_hash_table *ht, const int base_size) {
-
-  if (base_size < HT_INITAL_BASE_SIZE)
-    return;
+  if (base_size < HT_INITAL_BASE_SIZE) return;
 
   ht_hash_table *new_ht = ht_new_sized(base_size);
   int i;
@@ -147,11 +146,9 @@ static int ht_get_hash(const char *s, const int num_buckets,
  * - insert k:v and increment 'count'
  */
 void ht_insert(ht_hash_table *ht, const char *key, const char *value) {
-
   /* check the load on the table after insert (100/70 to avoid floats) */
   const int load = (ht->count * 100) / ht->size;
-  if (load > 70)
-    ht_resize_up(ht);
+  if (load > 70) ht_resize_up(ht);
 
   ht_item *item = ht_new_item(key, value);
   int index = ht_get_hash(item->key, ht->size, 0);
@@ -203,8 +200,7 @@ char *ht_search(ht_hash_table *ht, const char *key) {
  */
 void ht_delete(ht_hash_table *ht, const char *key) {
   const int load = (ht->count * 100) / ht->size;
-  if (load < 10)
-    ht_resize_down(ht);
+  if (load < 10) ht_resize_down(ht);
 
   int index = ht_get_hash(key, ht->size, 0);
   ht_item *item = ht->items[index];
