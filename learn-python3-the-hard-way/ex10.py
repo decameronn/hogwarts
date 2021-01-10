@@ -26,9 +26,35 @@
 
 
 # ex.13
+# from sys import argv
+# script, first, second, third = argv
+# print('the script is called: ', script)
+# print('your first variable is: ', first)
+# print('your second variable is: ', second)
+# print('your third variable is: ', third)
+
+
+# ex.14
 from sys import argv
-script, first, second, third = argv
-print('the script is called: ', script)
-print('your first variable is: ', first)
-print('your second variable is: ', second)
-print('your third variable is: ', third)
+
+script, user_name = argv
+prompt = '>'
+
+print(f"hi {user_name}, I'm the {script} script")
+print("my questions:")
+print(f"do you like me, {user_name}?")
+likes = input(prompt)
+
+print(f"where do you live, {user_name}?")
+lives = input(prompt)
+
+print(f"what's your computer, {user_name}?")
+computer = input(prompt)
+
+print(f"""
+You said {likes} about me.
+You live in {lives}.
+You have a {computer} computer.
+""")
+
+
