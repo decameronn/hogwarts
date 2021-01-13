@@ -74,6 +74,8 @@ DATA = {}
 
 
 def main():
+    # Main entry point for the code.
+
     SOCKET.bind((HOST, PORT))
     SOCKET.listen(1)
 
@@ -99,3 +101,71 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+# COMMAND PARSER
+
+def parse_message(data):
+
+    # Return a tuple containing the command, the key, and
+    # (optionally) the value cast to the appropriate type.
+
+    command, key, value, value_type = data.strip().split(';')
+    if value_type:
+        if value_type == 'LIST':
+            value = value.split(',')
+        elif value_type == 'INT':
+            value = int(value)
+        else:
+            value = str(value)
+    else:
+        value = None
+
+    return command, key, value
+
+
+# COMMAND HANDLERS
+
+def handle_stats(command, success):
+    # Update the STATS dict with info if executing
+    # *command* was a *success*.
+    if success:
+        STATS[command]['success'] += 1
+    else:
+        STATS[command]['error'] += 1
+
+
+def handle_put(key, value):
+    # Return a tuple containing True and the message
+    # to send back to the client.
+    DATA[key] = value
+    return (True, 'Key [{}] set to [{}]'.format(key, value))
+
+
+def handle_get(key):
+    # Return a tuple containing True if key exists and the message
+    # to send back to the client.
+    if key not in DATA:
+        return (False, 'Error: Key [{}] not found'.format(key))
+    else:
+        return (True, DATA[key])
+
+
+def handle_putlist(key, value):
+    # Return a tuple containing True if the command succeeded and
+    # the message to send back to the client.
+    return handle_put(key, value)
+
+
+def handle_getlist(key):
+    # Return a tuple containing True if the key contained a list and
+    # the message to send back to the client.
+    return_value = exists, value = handle_get(key)
+    if not exists:
+        return return_value
+    elif not isinstance(value, list):
+        return (
+            False,
+            'Error: Key [{}] contains non-list value ([{}])'.format(key, value))
+    else:
+        return return_value
