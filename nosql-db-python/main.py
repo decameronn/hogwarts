@@ -106,10 +106,8 @@ if __name__ == '__main__':
 # COMMAND PARSER
 
 def parse_message(data):
-
     # Return a tuple containing the command, the key, and
     # (optionally) the value cast to the appropriate type.
-
     command, key, value, value_type = data.strip().split(';')
     if value_type:
         if value_type == 'LIST':
@@ -126,7 +124,7 @@ def parse_message(data):
 
 # COMMAND HANDLERS
 
-def handle_stats(command, success):
+def update_stats(command, success):
     # Update the STATS dict with info if executing
     # *command* was a *success*.
     if success:
@@ -215,4 +213,3 @@ def handle_delete(key):
 def handle_stats():
     # Return a Tuple containing True and the contents of the STATS dict.
     return (True, str(STATS))
-    
