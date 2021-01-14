@@ -169,3 +169,50 @@ def handle_getlist(key):
             'Error: Key [{}] contains non-list value ([{}])'.format(key, value))
     else:
         return return_value
+
+
+def handle_increment(key):
+    # Return a tuple containing True if the key's value could be incremented
+    # and the message to send back to the client.
+    return_value = exists, value = handle_get(key)
+    if not exists:
+        return return_value
+    elif not isinstance(value, int):
+        return (
+            False,
+            'Error: Key [{}] contains non-int value ([{}])'.format(key, value))
+    else:
+        DATA[key] = value + 1
+        return (True, 'Key [{}] incremented'.format(key))
+
+
+def handle_append(key, value):
+    # Return a tuple containing True if the key's value could be appended
+    # and the message to send back to the client.
+    return_value = exists, list_value = handle_get(key)
+    if not exists:
+        return return_value
+    elif not isinstance(list_value, list):
+        return (
+            False,
+            'Error: Key [{}] contains non-list value ([{}])'.format(key, value))
+    else:
+        DATA[key].append(value)
+        return (True, 'Key [{}] had value [{}] appended'.format(key, value))
+
+
+def handle_delete(key):
+    # Return a tuple containing True if the key could be deleted
+    # and the message to send back to the client.
+    if key not in DATA:
+        return (
+            False,
+            'ERROR: Key [{}] not found and could not be deleted'.format(key))
+    else:
+        del DATA[key]
+
+
+def handle_stats():
+    # Return a Tuple containing True and the contents of the STATS dict.
+    return (True, str(STATS))
+    
